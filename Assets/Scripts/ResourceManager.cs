@@ -8,10 +8,14 @@ using UnityEngine;
 public enum ResourceType
 {
     Oxygen,
-    Air,
     Nitrogen,
     Hydrogen,
     Carbon,
+}
+
+public enum Essentials
+{
+    Air,
     Nutrients,
     Water,
     Energy,
