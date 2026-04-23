@@ -22,22 +22,31 @@ public enum Essentials
     Energy,
 }
 
-
 public class ResourceManager : MonoBehaviour
 {
-    public GameObject hudTank;
-
+    public Transform hudTankParentTrans;
     public List<Resources> resourceList;
+
+    private List<Transform> hudTankList;
 
     private void Start()
     {
         resourceList = new List<Resources>() { };
 
-        foreach (ResourceType foo in Enum.GetValues(typeof(ResourceType)))
+        hudTankList = new List<Transform>();
+
+        foreach(Transform child in hudTankParentTrans)
         {
-            GameObject obj = new GameObject(foo.ToString());
+            hudTankList.Add(child);
+        }
+
+        string[] ResourceTypeList = System.Enum.GetNames (typeof(ResourceType));
+
+        for (int i = 0; i < ResourceTypeList.Length; i++)
+        {
+            GameObject obj = new GameObject(ResourceTypeList[i]);
             Resources res = obj.AddComponent<Resources>();
-            res.Initialize(foo.ToString());
+            res.Initialize(ResourceTypeList[i], hudTankList[i].gameObject);
             resourceList.Add(res);
             obj.transform.SetParent(transform, false);
         }
@@ -46,12 +55,8 @@ public class ResourceManager : MonoBehaviour
         // {
         //     print(re.name);
         // }
-
-        Resources testObj = resourceList[0];
-        hudTank.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = testObj.currentVol.ToString();
-        RectTransform tempRect = hudTank.transform.GetChild(2).transform.GetChild(0).transform.GetChild(0).GetComponent<RectTransform>();
-        tempRect.sizeDelta = new Vector2(hudTank.transform.GetChild(2).transform.GetChild(0).GetComponent<RectTransform>().rect.width * testObj.currentVol/testObj.maxVol, tempRect.sizeDelta.y);
     }
+
 }
 
 public class Resources : MonoBehaviour
@@ -63,15 +68,50 @@ public class Resources : MonoBehaviour
     public float timeBetweenConsumption;
     //a marker that indicates the type of emergency that triggers when a certain amount of thing cannot be subtracted from
 
-    public void Initialize(string name)
+    private GameObject tankHud;
+
+    private TextMeshProUGUI volDisplayText;
+    private RectTransform maxVolRectTransform;
+    private RectTransform curVolRect;
+    /*TODO
+    smooth out motion of taking volume
+    sound effect too    
+    link toll to individual amounts bc some liquids have different calculations for toll than others
+    */
+
+
+    public void Initialize(string name, GameObject tankHud)
     {
         this.name = name;
+        this.tankHud = tankHud;
         maxVol = 100f;
-        currentVol = 4f;
-        timeBetweenConsumption = 2f;
+        currentVol = 50f;
+        timeBetweenConsumption = 4f;
         toll = 2f;
 
-        //StartCoroutine(Consume());
+        volDisplayText = this.tankHud.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        Transform maxVolTrans = this.tankHud.transform.GetChild(2).transform.GetChild(0);
+        maxVolRectTransform = maxVolTrans.GetComponent<RectTransform>();
+
+        volDisplayText.text = currentVol.ToString();
+        curVolRect = maxVolTrans.transform.GetChild(0).GetComponent<RectTransform>();
+        tankHud.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = this.name;
+
+        UpdateHUDTank();
+
+        StartCoroutine("Consume");
+    }
+
+    public float GetVolRatio()
+    {
+        return currentVol/maxVol;
+    }
+
+
+    private void UpdateHUDTank()
+    {
+        volDisplayText.text = currentVol.ToString();
+        curVolRect.sizeDelta = new Vector2(maxVolRectTransform.rect.width * GetVolRatio(), curVolRect.sizeDelta.y);
     }
 
     public IEnumerator Consume()
@@ -80,6 +120,7 @@ public class Resources : MonoBehaviour
         if (CanSubtractResources(toll))
         {
             StartCoroutine("Consume");
+            UpdateHUDTank();
         }
         else print("yo there's an issue");
         print(currentVol);
