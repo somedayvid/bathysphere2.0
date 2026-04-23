@@ -701,6 +701,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD_Tank (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1739869995808550045, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1019,6 +1023,70 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD_Tank
       objectReference: {fileID: 0}
+    - target: {fileID: 1739869995808550045, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3557946233894080501, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 275
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874191485023553871, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6111836595956500107, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283950997498309078, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693718425728899019, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867220279837945142, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1162,6 +1230,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081968186}
   m_CullTransparentMesh: 1
+--- !u!1 &1106138563 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1739869995808550045, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+  m_PrefabInstance: {fileID: 1063943564}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1174699375
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,6 +1391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc824424ba4dc6048b6737b1a90e06b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceInitializer
+  hudTank: {fileID: 1106138563}
   resourceList: []
 --- !u!4 &1495738687
 Transform:
@@ -1562,6 +1636,10 @@ PrefabInstance:
     - target: {fileID: 1739869995808550045, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
       propertyPath: m_Name
       value: HUD_Tank (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1739869995808550045, guid: 482a7a67929ffb1428c9281bc88c113a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

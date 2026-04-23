@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 public enum ResourceType
 {
@@ -21,8 +22,11 @@ public enum Essentials
     Energy,
 }
 
+
 public class ResourceManager : MonoBehaviour
 {
+    public GameObject hudTank;
+
     public List<Resources> resourceList;
 
     private void Start()
@@ -38,10 +42,15 @@ public class ResourceManager : MonoBehaviour
             obj.transform.SetParent(transform, false);
         }
 
-        foreach (Resources re in resourceList)
-        {
-            print(re.name);
-        }
+        // foreach (Resources re in resourceList)
+        // {
+        //     print(re.name);
+        // }
+
+        Resources testObj = resourceList[0];
+        hudTank.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = testObj.currentVol.ToString();
+        RectTransform tempRect = hudTank.transform.GetChild(2).transform.GetChild(0).transform.GetChild(0).GetComponent<RectTransform>();
+        tempRect.sizeDelta = new Vector2(hudTank.transform.GetChild(2).transform.GetChild(0).GetComponent<RectTransform>().rect.width * testObj.currentVol/testObj.maxVol, tempRect.sizeDelta.y);
     }
 }
 
