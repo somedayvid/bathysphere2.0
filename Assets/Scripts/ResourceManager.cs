@@ -42,7 +42,15 @@ public class ResourceManager : MonoBehaviour
 
         string[] ResourceTypeList = System.Enum.GetNames (typeof(ResourceType));
 
-        for (int i = 0; i < ResourceTypeList.Length; i++)
+
+        GameObject obj1 = new GameObject("Air");
+        Resources res1 = obj1.AddComponent<Resources>();
+        res1.Initialize("Air", hudTankList[0].gameObject, LevelManager.Get().BreathingToll);
+        resourceList.Add(res1);
+        obj1.transform.SetParent(transform, false);
+
+
+        for (int i = 1; i < ResourceTypeList.Length; i++)
         {
             GameObject obj = new GameObject(ResourceTypeList[i]);
             Resources res = obj.AddComponent<Resources>();
@@ -73,6 +81,8 @@ public class Resources : MonoBehaviour
     private TextMeshProUGUI volDisplayText;
     private RectTransform maxVolRectTransform;
     private RectTransform curVolRect;
+
+    private Func<float> tollFunction;
     /*TODO
     smooth out motion of taking volume
     sound effect too    
@@ -80,10 +90,11 @@ public class Resources : MonoBehaviour
     */
 
 
-    public void Initialize(string name, GameObject tankHud)
+    public void Initialize(string name, GameObject tankHud, Func<float> tollFunction = null)
     {
         this.name = name;
         this.tankHud = tankHud;
+        this.tollFunction = tollFunction;
         maxVol = 100f;
         currentVol = 50f;
         timeBetweenConsumption = 4f;
@@ -117,7 +128,11 @@ public class Resources : MonoBehaviour
     public IEnumerator Consume()
     {
         yield return new WaitForSeconds(timeBetweenConsumption);
-        if (CanSubtractResources(toll))
+        float tt = 0.0f;
+        if(tollFunction!= null){
+            tt = tollFunction();
+        }
+        if (CanSubtractResources(tt))
         {
             StartCoroutine("Consume");
             UpdateHUDTank();
