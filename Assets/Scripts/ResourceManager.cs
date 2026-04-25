@@ -83,18 +83,27 @@ public class Resources : MonoBehaviour
     private RectTransform curVolRect;
 
     private Func<float> tollFunction;
+    private Func<float> timeFunction;
     /*TODO
     smooth out motion of taking volume
     sound effect too    
     link toll to individual amounts bc some liquids have different calculations for toll than others
+    so for breathing, it happens over a number of breaths in a minute, the breathing rate should scale with movespeed and intensity
+    but also lower breath toll for when it does, so shallower, quicker breaths basically, kind of like an inverse equation thing
     */
 
-
-    public void Initialize(string name, GameObject tankHud, Func<float> tollFunction = null)
+    /// <summary>
+    /// Initialize Eric's cat resource manager
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="tankHud"></param>
+    /// <param name="tollFunction"></param>
+    public void Initialize(string name, GameObject tankHud, Func<float> tollFunction = null, Func<float> timeFunction = null)
     {
         this.name = name;
         this.tankHud = tankHud;
         this.tollFunction = tollFunction;
+        this.timeFunction = timeFunction;
         maxVol = 100f;
         currentVol = 50f;
         timeBetweenConsumption = 4f;
@@ -127,12 +136,20 @@ public class Resources : MonoBehaviour
 
     public IEnumerator Consume()
     {
-        yield return new WaitForSeconds(timeBetweenConsumption);
-        float tt = 0.0f;
-        if(tollFunction!= null){
-            tt = tollFunction();
+        float timeTemp = timeBetweenConsumption;
+        if(timeFunction != null)
+        {
+            timeTemp = timeFunction();
         }
-        if (CanSubtractResources(tt))
+
+        yield return new WaitForSeconds(timeBetweenConsumption);
+
+        float tollTemp = toll;
+        if(tollFunction!= null){
+            tollTemp = tollFunction();
+        }
+
+        if (CanSubtractResources(tollTemp))
         {
             StartCoroutine("Consume");
             UpdateHUDTank();
