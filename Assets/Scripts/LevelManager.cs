@@ -54,24 +54,25 @@ public class LevelManager : MonoBehaviour
     }
 
     private int[][] rooms;
+    private Room[][] roomsList;
     // private int numRooms = 20;
 
     private void CreateLevel()
     {   
         rooms = new int[][]
         {
-            {0,1,1,1,1},
-            {0,2,1,1,1},
-            {1,1,1,1,0},
-            {2,0,0,1,3}
+            new int[] {0,1,1,1,1},
+            new int[] {0,2,1,1,1},
+            new int[] {1,1,1,1,0},
+            new int[] {2,0,0,1,3}
         };
 
         for(int i = 0; i<rooms.Length; i++)
         {
             for(int j = 0; j < rooms[i].Length; j++)
             {
-                Room temp;
-                switch (rooms[j][j])
+                Room temp = null;
+                switch (rooms[i][j])
                 {
                     case 0:
                         temp = new Room(new List<RoomTypes> {RoomTypes.Empty});
@@ -86,6 +87,8 @@ public class LevelManager : MonoBehaviour
                         temp = new Room(new List<RoomTypes> {RoomTypes.Hole});
                     break;
                 }
+
+                roomsList[i][j] = temp;
             }
         }
     }
@@ -109,9 +112,9 @@ public enum EncounterType
 public class Room  
 {
     private List<RoomTypes> thingsInRoomList;
-    public Room[4] adjRooms = {null};
+    public Room[] adjRooms = {null};
 
-    Room(List<RoomTypes> thingsInRoomList)
+    public Room(List<RoomTypes> thingsInRoomList)
     {
         this.thingsInRoomList = thingsInRoomList;
     }
