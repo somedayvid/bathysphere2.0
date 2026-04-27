@@ -155,7 +155,7 @@ public class Resources : MonoBehaviour
             UpdateHUDTank();
         }
         else print("yo there's an issue");
-        print(currentVol);
+        //print(currentVol);
     }
 
     public bool CanSubtractResources(float amt)

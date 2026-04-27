@@ -2,8 +2,12 @@ using UnityEngine;
 using TMPro;
 public class PrefabManager : MonoBehaviour
 {
-    public TextMeshProUGUI currencyDisplay;
     private static PrefabManager instance;
+
+    public TextMeshProUGUI currencyDisplay;
+    public TextMeshProUGUI energyDisplay;
+    public TextMeshProUGUI energyUsageDisplay;
+    public TextMeshProUGUI physicalExertionDisplay;//soon to be hr tracker
 
     public static PrefabManager Get()
     {

@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 public class LevelManager : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class LevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        CreateLevel();
     }
 
     // Update is called once per frame
@@ -66,10 +67,18 @@ public class LevelManager : MonoBehaviour
             new int[] {0,1,1,1,1},
             new int[] {0,2,1,1,1},
             new int[] {1,1,1,1,0},
+            new int[] {2,0,0,1,3},
             new int[] {2,0,0,1,3}
         };
 
-        for(int i = 0; i<rooms.Length; i++)
+        roomsList = new Room[rooms.Length][];
+
+        for (int i = 0; i < rooms.Length; i++)
+        {
+            roomsList[i] = new Room[rooms[i].Length];
+        }
+
+        for (int i = 0; i < rooms.Length; i++)
         {
             for(int j = 0; j < rooms[i].Length; j++)
             {
@@ -97,7 +106,20 @@ public class LevelManager : MonoBehaviour
 
     public void PlayerMove(Vector2 direction)
     {
-        
+        Vector2 tempDir = playerPos + direction;
+        if(tempDir.x >= 0 &&
+            tempDir.y >= 0 &&
+            tempDir.x <= 4 &&
+            tempDir.y <= 4)
+        {
+            playerPos = tempDir;
+            Debug.Log("Player is now at " + playerPos.ToString() + " room is of type(s): ");
+            roomsList[(int)tempDir.x][(int)tempDir.y].PrintOutRoomType();
+        }
+        else
+        {
+            Debug.Log("Player could not move there");
+        }
     }
 }
 
