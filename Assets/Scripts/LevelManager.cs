@@ -57,6 +57,8 @@ public class LevelManager : MonoBehaviour
     private Room[][] roomsList;
     // private int numRooms = 20;
 
+    private Vector2 playerPos = Vector2.zero;
+
     private void CreateLevel()
     {   
         rooms = new int[][]
@@ -91,6 +93,11 @@ public class LevelManager : MonoBehaviour
                 roomsList[i][j] = temp;
             }
         }
+    }
+
+    public void PlayerMove(Vector2 direction)
+    {
+        
     }
 }
 
