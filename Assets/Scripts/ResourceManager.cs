@@ -58,7 +58,11 @@ public class ResourceManager : MonoBehaviour
             resourceList.Add(res);
             obj.transform.SetParent(transform, false);
         }
-
+            GameObject obj2 = new GameObject("Energy");
+            Resources res2 = obj2.AddComponent<Resources>();
+            res2.Initialize("Energy", null, LevelManager.Get().BreathingToll, null, PrefabManager.Get().currencyDisplay, true);
+            resourceList.Add(res2);
+            obj2.transform.SetParent(transform, false);
         // foreach (Resources re in resourceList)
         // {
         //     print(re.name);
@@ -84,6 +88,8 @@ public class Resources : MonoBehaviour
 
     private Func<float> tollFunction;
     private Func<float> timeFunction;
+
+    private bool doPrint;
     /*TODO
     smooth out motion of taking volume
     sound effect too    
@@ -98,24 +104,31 @@ public class Resources : MonoBehaviour
     /// <param name="name"></param>
     /// <param name="tankHud"></param>
     /// <param name="tollFunction"></param>
-    public void Initialize(string name, GameObject tankHud, Func<float> tollFunction = null, Func<float> timeFunction = null)
+    public void Initialize(string name, GameObject tankHud = null, Func<float> tollFunction = null, Func<float> timeFunction = null, TextMeshProUGUI displayText = null, bool doPrint = false)
     {
         this.name = name;
         this.tankHud = tankHud;
         this.tollFunction = tollFunction;
         this.timeFunction = timeFunction;
+        this.doPrint = doPrint;
         maxVol = 100f;
         currentVol = 50f;
         timeBetweenConsumption = 4f;
         toll = 2f;
 
-        volDisplayText = this.tankHud.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        Transform maxVolTrans = this.tankHud.transform.GetChild(2).transform.GetChild(0);
-        maxVolRectTransform = maxVolTrans.GetComponent<RectTransform>();
+        if (this.tankHud != null)
+        {
+            volDisplayText = this.tankHud.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            Transform maxVolTrans = this.tankHud.transform.GetChild(2).transform.GetChild(0);
+            maxVolRectTransform = maxVolTrans.GetComponent<RectTransform>();
 
-        volDisplayText.text = currentVol.ToString();
-        curVolRect = maxVolTrans.transform.GetChild(0).GetComponent<RectTransform>();
-        tankHud.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = this.name;
+            volDisplayText.text = currentVol.ToString();
+            curVolRect = maxVolTrans.transform.GetChild(0).GetComponent<RectTransform>();
+            tankHud.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = this.name;        }
+        else
+        {
+            volDisplayText = displayText;
+        }
 
         UpdateHUDTank();
 
@@ -131,7 +144,10 @@ public class Resources : MonoBehaviour
     private void UpdateHUDTank()
     {
         volDisplayText.text = currentVol.ToString();
-        curVolRect.sizeDelta = new Vector2(maxVolRectTransform.rect.width * GetVolRatio(), curVolRect.sizeDelta.y);
+        if(tankHud != null)
+        {
+            curVolRect.sizeDelta = new Vector2(maxVolRectTransform.rect.width * GetVolRatio(), curVolRect.sizeDelta.y);
+        }
     }
 
     public IEnumerator Consume()
@@ -155,7 +171,11 @@ public class Resources : MonoBehaviour
             UpdateHUDTank();
         }
         else print("yo there's an issue");
-        //print(currentVol);
+
+        if (doPrint)
+        {
+            Debug.Log(currentVol);
+        }
     }
 
     public bool CanSubtractResources(float amt)
