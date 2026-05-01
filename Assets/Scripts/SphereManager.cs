@@ -4,8 +4,8 @@ using UnityEngine.Rendering;
 
 public enum ArmType
 {
-    Hammer,
     Drill,
+    Hammer,
     Saw,
 }
 
@@ -44,15 +44,23 @@ public class SphereManager : MonoBehaviour
 
     public void ToggleActiveArm()
     {
-
+        if (toolActive)
+        {
+            toolActive = false;
+        }
+        else
+        {
+            toolActive = true;
+        }
     }
 
     public void SwapNextTool()
     {
+        toolActive = false;
         activeArmType += 1;
         if(activeArmType >= ArmType.Saw)
         {
-
+            activeArmType = ArmType.Drill;
         }
     }
 }
