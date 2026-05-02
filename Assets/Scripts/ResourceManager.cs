@@ -6,72 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
 
-public enum ResourceType
-{
-    Oxygen,
-    Nitrogen,
-    Hydrogen,
-    Carbon,
-}
-
-public enum Essentials
-{
-    Air,
-    Nutrients,
-    Water,
-    Energy,
-}
-
-public class ResourceManager : MonoBehaviour
-{
-    public Transform hudTankParentTrans;
-    public List<Resources> resourceList;
-
-    private List<Transform> hudTankList;
-
-    private void Start()
-    {
-        resourceList = new List<Resources>() { };
-
-        hudTankList = new List<Transform>();
-
-        foreach(Transform child in hudTankParentTrans)
-        {
-            hudTankList.Add(child);
-        }
-
-        string[] ResourceTypeList = System.Enum.GetNames (typeof(ResourceType));
-
-
-        GameObject obj1 = new GameObject("Air");
-        Resources res1 = obj1.AddComponent<Resources>();
-        res1.Initialize("Air", hudTankList[0].gameObject, LevelManager.Get().BreathingToll);
-        resourceList.Add(res1);
-        obj1.transform.SetParent(transform, false);
-
-
-        for (int i = 1; i < ResourceTypeList.Length; i++)
-        {
-            GameObject obj = new GameObject(ResourceTypeList[i]);
-            Resources res = obj.AddComponent<Resources>();
-            res.Initialize(ResourceTypeList[i], hudTankList[i].gameObject);
-            resourceList.Add(res);
-            obj.transform.SetParent(transform, false);
-        }
-            GameObject obj2 = new GameObject("Energy");
-            Resources res2 = obj2.AddComponent<Resources>();
-            res2.Initialize("Energy", null, LevelManager.Get().BreathingToll, null, PrefabManager.Get().currencyDisplay, true);
-            resourceList.Add(res2);
-            obj2.transform.SetParent(transform, false);
-        // foreach (Resources re in resourceList)
-        // {
-        //     print(re.name);
-        // }
-    }
-
-}
-
-public class Resources : MonoBehaviour
+public class ResourceTank : MonoBehaviour
 {
     public float maxVol;
     public float currentVol;
@@ -89,7 +24,7 @@ public class Resources : MonoBehaviour
     private Func<float> tollFunction;
     private Func<float> timeFunction;
 
-    private bool doPrint;
+    private bool doPrint = false;
     /*TODO
     smooth out motion of taking volume
     sound effect too    

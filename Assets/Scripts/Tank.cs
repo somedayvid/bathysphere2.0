@@ -1,16 +1,35 @@
+using System;
 using UnityEngine;
+using static UnityEditor.Handles;
 
-public class Tank : MonoBehaviour
+public class Tank
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private float curVol;
+    private float maxVol;
+    private string name;
+
+    public string Name { get { return name; } }
+    public float Volume { get { return maxVol; } }
+    public float MaxVolume { get { return maxVol; } }
+
+    public Tank(string name, float startVol, float maxVol)
     {
-        
+        this.curVol = startVol;
+        this.maxVol = maxVol;
     }
 
-    // Update is called once per frame
-    void Update()
+    public float GetVolRatio()
     {
-        
+        return curVol/maxVol;
+    }
+
+    public bool CanSubtractResources(float amt)
+    {
+        if (amt <= curVol)
+        {
+            curVol -= amt;
+            return true;
+        }
+        else return false;
     }
 }
