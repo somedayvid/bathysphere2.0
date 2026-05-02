@@ -6,6 +6,6 @@ public class CurrencyManager : MonoBehaviour
     public void AddCurrency()
     {
         currency += 1;
-        PrefabManager.Get().UpdateCurrency(currency);
+        HUDManager.Get().UpdateCurrency(currency);
     }
 }
