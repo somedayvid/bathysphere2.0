@@ -16,6 +16,7 @@ public class Tank
     {
         this.curVol = startVol;
         this.maxVol = maxVol;
+        this.name = name;
     }
 
     public float GetVolRatio()
@@ -31,5 +32,10 @@ public class Tank
             return true;
         }
         else return false;
+    }
+
+    public void Print()
+    {
+        Debug.Log(name + ": " + curVol);
     }
 }

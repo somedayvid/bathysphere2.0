@@ -36,20 +36,29 @@ public class TimersManager : MonoBehaviour
         //hydrogen;
         //carbon
 
-        foreach (var pair in nameTankPair.Values)
+        foreach (string key in nameTankPair.Keys)
         {
-            StartCoroutine(TollRateTicker(pair.TimeBetween(), pair.TollAmt()));
+            StartCoroutine(TollRateTicker(key, nameTankPair[key].TimeBetween(), nameTankPair[key].TollAmt()));
         }
 
         //in some cases timers may already be counting down when players enter an area of greater toll or rate, update to keep these things consistent by considering
         //the new rate and then doing some math or something to make up the difference
     }
 
-    private IEnumerator TollRateTicker(float time, float amt)
+    private IEnumerator TollRateTicker(string name, float time, float amt)
     {
         yield return new WaitForSeconds(time);
-        //do the things
-        //start new coroutine
+        Tank temp = AdjustableValueTank.Get().GetTank(name);
+        if (!temp.CanSubtractResources(amt))
+        {
+            print("hey i cant subtract from here, in this case trigger a warning in some cases");
+            //for essentials trigger warning
+            //for resources not neccesary just make a sound
+        }
+        //for testing
+        else{ temp.Print(); }
+        
+        StartCoroutine(TollRateTicker(name, time, amt));
     }
 }
 
