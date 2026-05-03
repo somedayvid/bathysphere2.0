@@ -39,6 +39,8 @@ public class HUDManager : MonoBehaviour
         screensList[curScreenIndex].SetActive(true);
     }
 
+
+    //for main screen in middle
     public TextMeshProUGUI OnOffDisplay;
     private bool collectionsActive = false;
 

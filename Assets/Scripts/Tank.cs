@@ -9,7 +9,7 @@ public class Tank
     private string name;
 
     public string Name { get { return name; } }
-    public float Volume { get { return maxVol; } }
+    public float Volume { get { return curVol; } }
     public float MaxVolume { get { return maxVol; } }
 
     public Tank(string name, float startVol, float maxVol)

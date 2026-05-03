@@ -26,14 +26,16 @@ public class AdjustableValuesBank : MonoBehaviour
     {
         return instance;
     }
+    
+    public Dictionary<string, Tank> StringTankPair
+    {
+        get { return stringTankPair; }
+    }
 
     private void Awake()
     {
         instance = this;
-    }
 
-    private void Start()
-    {
         stringTankPair = new Dictionary<string, Tank>();
 
         air = new Tank("Air", startEVol, maxTankVol);

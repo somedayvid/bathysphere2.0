@@ -59,7 +59,8 @@ public class ResourceTank : MonoBehaviour
 
             volDisplayText.text = currentVol.ToString();
             curVolRect = maxVolTrans.transform.GetChild(0).GetComponent<RectTransform>();
-            tankHud.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = this.name;        }
+            tankHud.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = this.name;        
+        }
         else
         {
             volDisplayText = displayText;
