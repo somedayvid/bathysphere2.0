@@ -23,6 +23,7 @@ public class HUDManager : MonoBehaviour
 
     private void Awake() {
         instance = this;
+        InitializeMainScreen();
         Button_NextScreen();
     }
 
@@ -31,8 +32,20 @@ public class HUDManager : MonoBehaviour
         currencyDisplay.text = newValue.ToString();
     }
 
-    public List<GameObject> screensList;
+    [Header("Main Screen")]
+    private List<GameObject> screensList;
+    public TextMeshProUGUI screenName;
     private int curScreenIndex = -1;
+
+    public Transform mainPanelTrans;
+    private void InitializeMainScreen()
+    {
+        screensList = new List<GameObject>();
+        foreach(Transform child in mainPanelTrans)
+        {
+            screensList.Add(child.gameObject);
+        }
+    }
 
     public void Button_NextScreen()
     {
@@ -40,6 +53,7 @@ public class HUDManager : MonoBehaviour
         curScreenIndex++;
         if (curScreenIndex >= screensList.Count) { curScreenIndex = 0; } 
         screensList[curScreenIndex].SetActive(true);
+        screenName.text = screensList[curScreenIndex].name.Substring(6);
     }
 
     //for main screen in middle
