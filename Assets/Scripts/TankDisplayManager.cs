@@ -51,17 +51,3 @@ public class TankDisplayManager : MonoBehaviour
         return stringTankDDict[name];
     }
 }
-
-public class TankDisplay
-{
-    private TextMeshProUGUI textObj;
-    public TankDisplay(TextMeshProUGUI textObj)
-    {
-        this.textObj = textObj;
-    }
-
-    public void UpdateTankDisplay(string name, float newVol, float maxVol)
-    {
-        textObj.text = name + ": " + newVol.ToString() + "/" + maxVol.ToString();
-    }
-}

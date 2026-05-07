@@ -13,6 +13,9 @@ public class HUDManager : MonoBehaviour
     public TextMeshProUGUI energyUsageDisplay;
     public TextMeshProUGUI physicalExertionDisplay;//soon to be hr tracker
 
+    //for use in getting all transforms for tanks
+    public Transform hudTankParentTrans;
+
     public static HUDManager Get()
     {
         return instance;
@@ -39,16 +42,12 @@ public class HUDManager : MonoBehaviour
         screensList[curScreenIndex].SetActive(true);
     }
 
-
     //for main screen in middle
     public TextMeshProUGUI OnOffDisplay;
-    private bool collectionsActive = false;
+    // /private bool collectionsActive = false;
 
     public void Button_Toggle_Collections()
     {
-        if (collectionsActive) { collectionsActive = false; }
-        else {  collectionsActive = true; }
-
-        OnOffDisplay.text = collectionsActive.ToString().ToUpper();
+        OnOffDisplay.text = CollectionsFunction.Get().ToggleCollections().ToString().ToUpper();
     }
 }
