@@ -56,7 +56,7 @@ public class Tank
 
     public void Print()
     {
-        Debug.Log(name + ": " + curVol);
+        //Debug.Log(name + ": " + curVol);
     }
 }
 

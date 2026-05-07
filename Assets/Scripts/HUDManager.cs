@@ -47,6 +47,9 @@ public class HUDManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Advances to next screen in main screen's list
+    /// </summary>
     public void Button_NextScreen()
     {
         if (curScreenIndex >= 0) { screensList[curScreenIndex]?.SetActive(false); }

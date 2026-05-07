@@ -80,6 +80,13 @@ public class AdjustableValuesBank : MonoBehaviour
         return stringTankPair[key];
     }
 
+    // public float BreathingToll()
+    // {
+    //     //update with formula to calculate for inbetween movement speeds as well for 8-70lpm
+    //     // return currentAtm * minGasNeed;
+    //     return 0.0f;
+    // }
+
     //currency
     public float currency = 1000;
 

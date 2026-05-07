@@ -20,8 +20,6 @@ public class LevelManager : MonoBehaviour
     //values are for 1 atm
     //8 lpm at rest, 20 at moderate activity, 70 at vigorous
 
-    
-
     public int CurrentAtm{
         get { return currentAtm; }
     }
@@ -48,6 +46,10 @@ public class LevelManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Soon to be relocated to adjustablevaluesbank
+    /// </summary>
+    /// <returns>Amount of air required for breathing</returns>
     public float BreathingToll()
     {
         //update with formula to calculate for inbetween movement speeds as well for 8-70lpm
@@ -59,6 +61,9 @@ public class LevelManager : MonoBehaviour
     // private int numRooms = 20;
 
     private Vector2 playerPos = Vector2.zero;
+
+    public GameObject tempRoomSpaceObj;
+    public Transform minimapCornerMarker;
 
     private void CreateLevel()
     {   
@@ -83,25 +88,36 @@ public class LevelManager : MonoBehaviour
             for(int j = 0; j < rooms[i].Length; j++)
             {
                 Room temp = null;
+                Vector3 pos = new Vector3(minimapCornerMarker.position.x + 1.5f * j, minimapCornerMarker.position.y - 1.5f * i);
                 switch (rooms[i][j])
                 {
                     case 0:
-                        temp = new Room(new List<RoomTypes> {RoomTypes.Empty});
+                        temp = NewRoom(new List<RoomTypes> {RoomTypes.Empty}, pos, Color.blue);
                     break;
                     case 1:
-                        temp = new Room(new List<RoomTypes> {RoomTypes.Ore});
+                        temp = NewRoom(new List<RoomTypes> {RoomTypes.Ore}, pos, Color.grey);
                     break;
                     case 2:
-                        temp = new Room(new List<RoomTypes> {RoomTypes.Spawner});
+                        temp = NewRoom(new List<RoomTypes> {RoomTypes.Spawner}, pos, Color.yellow);
                     break;
                     case 3:
-                        temp = new Room(new List<RoomTypes> {RoomTypes.Hole});
+                        temp = NewRoom(new List<RoomTypes> {RoomTypes.Empty}, pos, Color.red);
                     break;
                 }
 
                 roomsList[i][j] = temp;
             }
         }
+    }
+
+    private Room NewRoom(List<RoomTypes> roomTypes, Vector3 pos, Color col)
+    {
+        Room newTemp = Instantiate(tempRoomSpaceObj).GetComponent<Room>();
+        newTemp.SetTypes(roomTypes);
+        newTemp.transform.position = pos;
+        newTemp.transform.SetParent(transform);
+        newTemp.gameObject.GetComponent<SpriteRenderer>().color = col;
+        return newTemp;
     }
 
     public void PlayerMove(Vector2 direction)
@@ -115,6 +131,7 @@ public class LevelManager : MonoBehaviour
             playerPos = tempDir;
             Debug.Log("Player is now at " + playerPos.ToString() + " room is of type(s): ");
             roomsList[(int)tempDir.x][(int)tempDir.y].PrintOutRoomType();
+            roomsList[(int)tempDir.x][(int)tempDir.y].gameObject.GetComponent<SpriteRenderer>().color = Color.cornsilk;
         }
         else
         {
@@ -138,21 +155,3 @@ public enum EncounterType
     
 }
 
-public class Room  
-{
-    private List<RoomTypes> thingsInRoomList;
-    public Room[] adjRooms = {null};
-
-    public Room(List<RoomTypes> thingsInRoomList)
-    {
-        this.thingsInRoomList = thingsInRoomList;
-    }
-
-    public void PrintOutRoomType()
-    {
-        foreach(RoomTypes type in thingsInRoomList)
-        {
-            Debug.Log(type.ToString());
-        }
-    }
-}
