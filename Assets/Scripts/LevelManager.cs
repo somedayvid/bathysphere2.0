@@ -64,6 +64,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject tempRoomSpaceObj;
     public Transform minimapCornerMarker;
+    private Color playerCol = Color.cornsilk;
 
     private void CreateLevel()
     {   
@@ -101,7 +102,7 @@ public class LevelManager : MonoBehaviour
                         temp = NewRoom(new List<RoomTypes> {RoomTypes.Spawner}, pos, Color.yellow);
                     break;
                     case 3:
-                        temp = NewRoom(new List<RoomTypes> {RoomTypes.Empty}, pos, Color.red);
+                        temp = NewRoom(new List<RoomTypes> {RoomTypes.Hole}, pos, Color.red);
                     break;
                 }
 
@@ -114,9 +115,10 @@ public class LevelManager : MonoBehaviour
     {
         Room newTemp = Instantiate(tempRoomSpaceObj).GetComponent<Room>();
         newTemp.SetTypes(roomTypes);
+        newTemp.AssignBaseColor(col);
         newTemp.transform.position = pos;
         newTemp.transform.SetParent(transform);
-        newTemp.gameObject.GetComponent<SpriteRenderer>().color = col;
+        newTemp.gameObject.GetComponent<SpriteRenderer>().color = newTemp.Base;
         return newTemp;
     }
 
@@ -128,10 +130,16 @@ public class LevelManager : MonoBehaviour
             tempDir.x <= 4 &&
             tempDir.y <= 4)
         {
+            Room temp1 = roomsList[(int)playerPos.x][(int)playerPos.y];
+            temp1.gameObject.GetComponent<SpriteRenderer>().color = temp1.Base;
+
             playerPos = tempDir;
             Debug.Log("Player is now at " + playerPos.ToString() + " room is of type(s): ");
-            roomsList[(int)tempDir.x][(int)tempDir.y].PrintOutRoomType();
-            roomsList[(int)tempDir.x][(int)tempDir.y].gameObject.GetComponent<SpriteRenderer>().color = Color.cornsilk;
+            
+            Room temp = roomsList[(int)tempDir.x][(int)tempDir.y];
+            temp.PrintOutRoomType();
+            temp.gameObject.GetComponent<SpriteRenderer>().color = playerCol;
+;
         }
         else
         {

@@ -6,8 +6,14 @@ public class Room : MonoBehaviour
 {
     private List<RoomTypes> thingsInRoomList;
     private Color baseColor;
-    private Color playerColor;
+    private bool playerOccupied = false;
     public Room[] adjRooms = {null};
+
+    public Color Base{ get { return baseColor; } }
+    public bool Occupied {
+        get { return playerOccupied; }
+        set { playerOccupied = value; }
+    }
 
     // public Room(List<RoomTypes> thingsInRoomList)
     // {
@@ -16,6 +22,11 @@ public class Room : MonoBehaviour
     public void SetTypes(List<RoomTypes> thingsInRoomList)
     {
         this.thingsInRoomList = thingsInRoomList;
+    }
+
+    public void AssignBaseColor(Color col)
+    {
+        baseColor = col;
     }
 
     public void PrintOutRoomType()
