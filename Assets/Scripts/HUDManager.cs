@@ -60,11 +60,28 @@ public class HUDManager : MonoBehaviour
     }
 
     //for main screen in middle
-    public TextMeshProUGUI OnOffDisplay;
+    public TextMeshProUGUI OnOffDisplay_Collections;
     // /private bool collectionsActive = false;
 
     public void Button_Toggle_Collections()
     {
-        OnOffDisplay.text = CollectionsFunction.Get().ToggleCollections().ToString().ToUpper();
+        OnOffDisplay_Collections.text = CollectionsFunction.Get().ToggleCollections().ToString().ToUpper();
     }
+
+    public TextMeshProUGUI OnOffDisplay_MainTool;
+    public TextMeshProUGUI currentTool;
+
+    public void Button_Toggle_Tool()
+    {
+        //OnOffDisplay_MainTool = ToolsFunction.Get().ToggleTool().ToString().ToUpper();
+    }
+
+    public void Button_NextTool()
+    {
+        ToolsFunction.Get().NextTool();
+    }
+
+    public void OnPointerDown() => ToolsFunction.Get().isHolding = true;
+
+    public void OnPointerUp() => ToolsFunction.Get().isHolding = false;
 }

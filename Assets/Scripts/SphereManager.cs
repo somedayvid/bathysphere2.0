@@ -2,32 +2,32 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public enum ArmType
-{
-    Drill,
-    Hammer,
-    Saw,
-}
+// public enum ArmType
+// {
+//     Drill,
+//     Hammer,
+//     Saw,
+// }
 
 public class SphereManager : MonoBehaviour
 {
-    public bool collectingActive = false;
-    public bool toolActive = false;
+    // public bool collectingActive = false;
+    // public bool toolActive = false;
 
-    private bool mouseDown = false;
+    // private bool mouseDown = false;
 
-    private ArmType activeArmType = ArmType.Drill;
+    // private ArmType activeArmType = ArmType.Drill;
 
-    private static SphereManager instance;
+    // private static SphereManager instance;
 
-    public static SphereManager Get()
-    {
-        return instance;
-    }
+    // public static SphereManager Get()
+    // {
+    //     return instance;
+    // }
 
     private void Awake()
     {
-        instance = this;
+        //instance = this;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -42,25 +42,25 @@ public class SphereManager : MonoBehaviour
         
     }
 
-    public void ToggleActiveArm()
-    {
-        if (toolActive)
-        {
-            toolActive = false;
-        }
-        else
-        {
-            toolActive = true;
-        }
-    }
+    // public void ToggleActiveArm()
+    // {
+    //     if (toolActive)
+    //     {
+    //         toolActive = false;
+    //     }
+    //     else
+    //     {
+    //         toolActive = true;
+    //     }
+    // }
 
-    public void SwapNextTool()
-    {
-        toolActive = false;
-        activeArmType += 1;
-        if(activeArmType >= ArmType.Saw)
-        {
-            activeArmType = ArmType.Drill;
-        }
-    }
+    // public void SwapNextTool()
+    // {
+    //     toolActive = false;
+    //     activeArmType += 1;
+    //     if(activeArmType >= ArmType.Saw)
+    //     {
+    //         activeArmType = ArmType.Drill;
+    //     }
+    // }
 }
