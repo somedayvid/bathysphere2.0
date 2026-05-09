@@ -194,7 +194,12 @@ public class AdjustableValuesBank : MonoBehaviour
     }
 
     public float base_atm = 0;
-   // public float cur_atm = base_atm;
+    // public float cur_atm = base_atm;
+
+    public float minNoiseLevel = 25;
+    public float maxNoiseLevel = 100;
+    
+
 
     private void Awake()
     {

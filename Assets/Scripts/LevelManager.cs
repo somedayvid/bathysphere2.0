@@ -66,8 +66,12 @@ public class LevelManager : MonoBehaviour
     public Transform minimapCornerMarker;
     private Color playerCol = Color.cornsilk;
 
+    private List<Room> spawnerRoomsList;
+
     private void CreateLevel()
     {   
+        spawnerRoomsList = new List<Vector2>();
+
         rooms = new int[][]
         {
             new int[] {0,1,1,1,1},
@@ -89,7 +93,7 @@ public class LevelManager : MonoBehaviour
             for(int j = 0; j < rooms[i].Length; j++)
             {
                 Room temp = null;
-                Vector3 pos = new Vector3(minimapCornerMarker.position.x + 1.5f * j, minimapCornerMarker.position.y - 1.5f * i);
+                Vector2 pos = new Vector2(j,i);
                 switch (rooms[i][j])
                 {
                     case 0:
@@ -100,6 +104,7 @@ public class LevelManager : MonoBehaviour
                     break;
                     case 2:
                         temp = NewRoom(new List<RoomTypes> {RoomTypes.Spawner}, pos, Color.yellow);
+                        spawnerRoomsList.Add(temp);
                     break;
                     case 3:
                         temp = NewRoom(new List<RoomTypes> {RoomTypes.Hole}, pos, Color.red);
@@ -111,12 +116,26 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void NoiseCheck()
+    {
+        foreach(Room roo in spawnerRoomsList)
+        {
+            Vector2 tempComparison = roo.Pos - playerPos;
+            float tempDistance = Mathf.Abs(tempComparison.x) + Mathf.Abs(tempComparison.y);
+            //temporarily placed as 10% when imemdiately next to room
+            if(UnityEngine.Random.Range(1, 101) < 10.0f/tempDistance)
+            {
+
+            }
+        }
+    }
+
     private Room NewRoom(List<RoomTypes> roomTypes, Vector3 pos, Color col)
     {
         Room newTemp = Instantiate(tempRoomSpaceObj).GetComponent<Room>();
-        newTemp.SetTypes(roomTypes);
-        newTemp.AssignBaseColor(col);
-        newTemp.transform.position = pos;
+        newTemp.transform.position = new Vector3(minimapCornerMarker.position.x + 1.5f * pos.x, minimapCornerMarker.position.y - 1.5f * pos.y);
+        
+        newTemp.Initialize(roomTypes, pos, col);
         newTemp.transform.SetParent(transform);
         newTemp.gameObject.GetComponent<SpriteRenderer>().color = newTemp.Base;
         return newTemp;

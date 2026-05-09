@@ -26,30 +26,35 @@ public class ToolsFunction : MonoBehaviour
     void Start()
     {
         bank = AdjustableValuesBank.Get();
+        cur_timeToMineOnce = base_timeToMineOnce;
         timeLeftTick = cur_timeToMineOnce;
     }
 
     float base_timeToMineOnce = 2.5f;
-    float cur_timeToMineOnce = 2.5f;
+    float cur_timeToMineOnce;
     float timeLeftTick;
 
     // Update is called once per frame
     void Update()
     {
-        if (activeToolType == ToolType.Drill && isHolding) {
-            Debug.Log("I AM DOING A THING");
-            timeLeftTick -= Time.deltaTime;
-            if(timeLeftTick <= 0)
-            {
-                //do thing
-                timeLeftTick = cur_timeToMineOnce;
-            }
+        switch (activeToolType)
+        {
+            case ToolType.Drill:
+                if (isHolding)
+                {
+                    timeLeftTick -= Time.deltaTime;
+                    if(timeLeftTick <= 0)
+                    {
+                        
+                        timeLeftTick = cur_timeToMineOnce;
+                    }
+                }
+                break;
+            case ToolType.Saw:
+                break;
+            case ToolType.Hammer:
+                break;
         }
-    }
-
-    public void ToggleTool()
-    {
-        
     }
 
     public void NextTool()
@@ -64,7 +69,4 @@ public class ToolsFunction : MonoBehaviour
     //drill function
 
     public bool isHolding = false;
-
-
-
 }
