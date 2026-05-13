@@ -18,6 +18,8 @@ public class Room : MonoBehaviour
         set { playerOccupied = value; }
     }
 
+    public List<RoomTypes> RoomsTypes { get { return thingsInRoomList; } }
+
     // public Room(List<RoomTypes> thingsInRoomList)
     // {
     // }
@@ -26,14 +28,24 @@ public class Room : MonoBehaviour
     {
         baseColor = col;
         this.thingsInRoomList = thingsInRoomList;
+        this.enemies = new List<Enemy>();
         this.pos = pos;
+    }
+
+    public void AddEnemy()
+    {
+        Enemy enemy = new Enemy();
+        enemies.Add(enemy);
     }
 
     public void PrintOutRoomType()
     {
+        string types = "Room Types: ";
         foreach(RoomTypes type in thingsInRoomList)
         {
-            Debug.Log(type.ToString());
+            types += type.ToString() + ", ";
         }
+        types += ",\b Enemy count: " + enemies.Count; 
+        Debug.Log(types);
     }
 }

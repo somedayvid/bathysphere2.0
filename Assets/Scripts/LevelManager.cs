@@ -34,16 +34,14 @@ public class LevelManager : MonoBehaviour
         instance = this;
     }
 
+    private AdjustableValuesBank bank;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         CreateLevel();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Invoke("NoiseCheck", 5);
+        bank = AdjustableValuesBank.Get();
     }
 
     /// <summary>
@@ -60,8 +58,6 @@ public class LevelManager : MonoBehaviour
     private Room[][] roomsList;
     // private int numRooms = 20;
 
-    private Vector2 playerPos = Vector2.zero;
-
     public GameObject tempRoomSpaceObj;
     public Transform minimapCornerMarker;
     private Color playerCol = Color.cornsilk;
@@ -70,7 +66,7 @@ public class LevelManager : MonoBehaviour
 
     private void CreateLevel()
     {   
-        spawnerRoomsList = new List<Vector2>();
+        spawnerRoomsList = new List<Room>();
 
         rooms = new int[][]
         {
@@ -120,14 +116,21 @@ public class LevelManager : MonoBehaviour
     {
         foreach(Room roo in spawnerRoomsList)
         {
-            Vector2 tempComparison = roo.Pos - playerPos;
+            Vector2 tempComparison = roo.Pos - bank.playerPos;
             float tempDistance = Mathf.Abs(tempComparison.x) + Mathf.Abs(tempComparison.y);
             //temporarily placed as 10% when imemdiately next to room
             if(UnityEngine.Random.Range(1, 101) < 10.0f/tempDistance)
             {
-
+                SpawnEnemy(roo);
             }
         }
+    }
+
+    public void SpawnEnemy(Room roo)
+    {
+        //TODO
+        //should probably have the enemy be added here since there will be different types but for now it can stay in room.cs
+        roo.AddEnemy();
     }
 
     private Room NewRoom(List<RoomTypes> roomTypes, Vector3 pos, Color col)
@@ -143,26 +146,41 @@ public class LevelManager : MonoBehaviour
 
     public void PlayerMove(Vector2 direction)
     {
-        Vector2 tempDir = playerPos + direction;
+        Vector2 tempDir = bank.playerPos + direction;
         if(tempDir.x >= 0 &&
             tempDir.y >= 0 &&
             tempDir.x <= 4 &&
             tempDir.y <= 4)
         {
-            Room temp1 = roomsList[(int)playerPos.x][(int)playerPos.y];
+            Room temp1 = roomsList[(int)bank.playerPos.x][(int)bank.playerPos.y];
             temp1.gameObject.GetComponent<SpriteRenderer>().color = temp1.Base;
 
-            playerPos = tempDir;
-            Debug.Log("Player is now at " + playerPos.ToString() + " room is of type(s): ");
+            bank.playerPos = tempDir;
+            Debug.Log("Player is now at " + bank.playerPos.ToString() + " room is of type(s): ");
             
             Room temp = roomsList[(int)tempDir.x][(int)tempDir.y];
             temp.PrintOutRoomType();
             temp.gameObject.GetComponent<SpriteRenderer>().color = playerCol;
-;
         }
         else
         {
             Debug.Log("Player could not move there");
+        }
+    }
+
+    public Room GetCurrentRoom()
+    {
+        return roomsList[(int)bank.playerPos.x][(int)bank.playerPos.y];
+    }
+
+    //TODO
+    //currently in teh middle of adding the functionality for the game checking what things are in teh room the player is in and that being
+    //the way that they can interat with things then the current room should be checked in the tools function
+    public void GetCurrentRoomTypes()
+    {
+        foreach(RoomTypes roo in GetCurrentRoom().RoomsTypes)
+        {
+            bank.cur_roomTypeCurrentRoomDict[roo] = true;
         }
     }
 }

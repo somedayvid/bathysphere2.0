@@ -198,8 +198,23 @@ public class AdjustableValuesBank : MonoBehaviour
 
     public float minNoiseLevel = 25;
     public float maxNoiseLevel = 100;
-    
 
+    public Vector2 playerPos = Vector2.zero;
+    public List<RoomTypes> currentRoom;
+
+    public Dictionary<RoomTypes, bool> base_roomTypeCurrentRoomDict;
+    public Dictionary<RoomTypes, bool> cur_roomTypeCurrentRoomDict;
+
+    private void InitializeLevel()
+    {
+        base_roomTypeCurrentRoomDict = new Dictionary<RoomTypes, bool>();
+        foreach(RoomTypes roo in RoomTypes.GetValues(typeof(RoomTypes))) 
+        {
+            base_roomTypeCurrentRoomDict.Add(roo, false);
+        }
+
+        cur_roomTypeCurrentRoomDict = new Dictionary<RoomTypes, bool> (base_roomTypeCurrentRoomDict);
+    }
 
     private void Awake()
     {
@@ -207,5 +222,6 @@ public class AdjustableValuesBank : MonoBehaviour
         InitializeTanks();
         InitializeChemicals();
         InitializeTools();
+        InitializeLevel();
     }
 }
